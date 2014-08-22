@@ -1,8 +1,16 @@
-name             'webhook'
-maintainer       ''
-maintainer_email ''
-license          ''
-description      'Installs/Configures webhook'
-long_description 'Installs/Configures webhook'
-version          '0.1.0'
+# Encoding: UTF-8
 
+name             'webhook'
+maintainer       'Jonathan Hartman'
+maintainer_email 'j@p4nt5.com'
+license          'Apache v2.0'
+description      'Installs/configures Webhook'
+long_description 'Installs/configures Webhook'
+version          '0.0.1'
+
+supports         'ubuntu'
+supports         'redhat'
+supports         'centos'
+supports         'scientific'
+supports         'mac_os_x'
+# supports       'windows'

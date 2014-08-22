@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: webhook
-# Recipe:: default
+# Attributes:: default
 #
 # Copyright 2014, Jonathan Hartman
 #

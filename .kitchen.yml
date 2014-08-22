@@ -6,11 +6,15 @@ provisioner:
   name: chef_zero
 
 platforms:
+  - name: ubuntu-14.04
   - name: ubuntu-12.04
-  - name: centos-6.4
+  - name: centos-7.0
+  - name: centos-6.5
+  - name: macosx-10.9
+# - name: windows-2012
 
 suites:
   - name: default
     run_list:
-      - recipe[webhook::default]
+      - recipe[webhook]
     attributes:
