@@ -21,6 +21,8 @@ require 'chef'
 require 'chefspec'
 require 'tmpdir'
 require 'fileutils'
+require_relative 'support/resource/nodejs_npm'
+require_relative 'support/provider/nodejs_npm'
 
 RSpec.configure do |c|
   c.color = true
