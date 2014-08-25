@@ -10,32 +10,76 @@ A cookbook for installing and configuring the various components of
 [Webhook](http://www.webhook.com).
 
 Requirements
-============
+------------
+
+While the included recipes will handle installation of Node.js on their own,
+the resources provided will not. Either use the recipes or ensure Node.js is
+installed prior to calling a resource directly.
 
 Usage
-=====
+-----
 
 This cookbook can be implemented either by calling its resource directly, or
 adding the recipes that wrap it to your run_list.
 
 Recipes
-=======
+-------
 
 ***default***
+
+***cli***
+
+Installs Node.js and calls the webhook_cli resource to install the Webhook CLI.
 
 Attributes
-==========
+----------
 
 ***default***
 
+| Attribute                                 | Default | Description                                                         |
+|-------------------------------------------|---------|---------------------------------------------------------------------|
+| `node['webhook']['cli']['version']`       | nil     | Install a specific version of the Webhook CLI instead of the latest |
+| `node['webhook']['cli']['grunt_version']` | nil     | Install a specific version of Grunt instead of the latest           |
+
 Resources
-=========
+---------
+
+***webhook_cli***
+
+Wraps the installation of Grunt and the Webhook CLI NPM packages into a single
+resource.
+
+Syntax:
+
+    webhook_cli 'webhook' do
+      version '1.2.3'
+      grunt_version '4.5.6'
+      action :install
+    end
+
+Actions:
+
+| Action       | Description                       |
+|--------------|-----------------------------------|
+| `:install`   | Install the Webhook CLI (default) |
+| `:uninstall` | Uninstall the CLI                 |
+
+Attributes:
+
+| Attribute       | Default    | Description                          |
+|-----------------|------------|--------------------------------------|
+| `version`       | `'latest'` | Version of the wh package to install |
+| `grunt_version` | `'latest'` | Version of the Grunt dep to install  |
 
 Providers
-=========
+---------
+
+***webhook_cli***
+
+Handles installs/uninstalls of the Webhook CLI, via NPM packages.
 
 Contributing
-============
+------------
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
@@ -45,7 +89,8 @@ Contributing
 6. Create new Pull Request
 
 License & Authors
-=================
+-----------------
+
 - Author: Jonathan Hartman <j@p4nt5.com>
 
 Copyright 2014, Jonathan Hartman
