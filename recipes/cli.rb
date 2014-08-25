@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: webhook
-# Attributes:: default
+# Recipe:: cli
 #
 # Copyright 2014, Jonathan Hartman
 #
@@ -18,5 +18,9 @@
 # limitations under the License.
 #
 
-default['webhook']['cli']['version'] = nil
-default['webhook']['cli']['grunt_version'] = nil
+include_recipe 'nodejs'
+
+webhook_cli 'webhook' do
+  version node['webhook']['cli']['version']
+  grunt_version node['webhook']['cli']['grunt_version']
+end

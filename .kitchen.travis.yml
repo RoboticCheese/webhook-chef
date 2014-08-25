@@ -11,3 +11,8 @@ suites:
       - recipe[webhook]
     attributes:
     excludes: ['macosx-10.9']
+  - name: cli
+    run_list:
+      - recipe[webhook::cli]
+    attributes:
+    excludes: ['macosx-10.9']

@@ -8,6 +8,8 @@ description      'Installs/configures Webhook'
 long_description 'Installs/configures Webhook'
 version          '0.0.1'
 
+depends          'nodejs'
+
 supports         'ubuntu'
 supports         'redhat'
 supports         'centos'

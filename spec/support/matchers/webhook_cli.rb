@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: webhook
-# Spec:: recipes/default
+# Spec:: support/matchers/cli
 #
 # Copyright (C) 2014, Jonathan Hartman
 #
@@ -19,11 +19,19 @@
 
 require 'spec_helper'
 
-describe 'webhook::default' do
-  let(:runner) { ChefSpec::Runner.new }
-  let(:chef_run) { runner.converge(described_recipe) }
+module ChefSpec
+  module API
+    # Some simple matchers for the webhook_cli resource
+    #
+    # @author Jonathan Hartman <j@p4nt5.com>
+    module WebhookCLIMatchers
+      ChefSpec::Runner.define_runner_method :webhook_cli
 
-  it "doesn't do anything yet" do
-    expect(true).to eq(true)
+      def install_webhook_cli(resource_name)
+        ChefSpec::Matchers::ResourceMatcher.new(:webhook_cli,
+                                                :install,
+                                                resource_name)
+      end
+    end
   end
 end
