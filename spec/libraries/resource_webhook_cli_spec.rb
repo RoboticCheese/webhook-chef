@@ -20,7 +20,7 @@
 require_relative '../spec_helper'
 require_relative '../../libraries/resource_webhook_cli'
 
-describe Chef::Resource::Webhook::CLI do
+describe Chef::Resource::WebhookCli do
   let(:version) { nil }
   let(:grunt_version) { nil }
 

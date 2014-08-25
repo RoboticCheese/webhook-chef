@@ -24,75 +24,73 @@ require_relative 'resource_webhook_cli'
 
 class Chef
   class Provider
-    class Webhook < Provider
-      # A Chef provider for the Webhook CLI
+    # A Chef provider for the Webhook CLI
+    #
+    # @author Jonathan Hartman <j@p4nt5.com>
+    class WebhookCli < Provider
+      include ::Webhook::Helpers
+
       #
-      # @author Jonathan Hartman <j@p4nt5.com>
-      class CLI < Provider
-        include ::Webhook::Helpers
+      # Advertise WhyRun support for this provider
+      #
+      # @return [TrueClass, FalseClass]
+      #
+      def whyrun_supported?
+        true
+      end
 
-        #
-        # Advertise WhyRun support for this provider
-        #
-        # @return [TrueClass, FalseClass]
-        #
-        def whyrun_supported?
-          true
+      #
+      # Load and return the current resource
+      #
+      # @return [Chef::Resource::WebhookCli]
+      #
+      def load_current_resource
+        @current_resource ||= Resource::WebhookCli.new(new_resource.name)
+      end
+
+      #
+      # Download and install the Webhook CLI
+      #
+      def action_install
+        grunt_package.run_action(:install)
+        wh_package.run_action(:install)
+        new_resource.installed = true
+      end
+
+      #
+      # Uninstall the Webhook CLI
+      def action_uninstall
+        wh_package.run_action(:uninstall)
+        grunt_package.run_action(:uninstall)
+        new_resource.installed = false
+      end
+
+      private
+
+      #
+      # A Chef resource for the wh NPM package
+      #
+      # @return [Chef::Resource::NodejsNpm]
+      #
+      def wh_package
+        @wh_package ||= Resource::NodejsNpm.new('wh', run_context)
+        unless new_resource.version == 'latest'
+          @wh_package.version(new_resource.version)
         end
+        @wh_package
+      end
 
-        #
-        # Load and return the current resource
-        #
-        # @return [Chef::Resource::Webhook::CLI]
-        #
-        def load_current_resource
-          @current_resource ||= Resource::Webhook::CLI.new(new_resource.name)
+      #
+      # A Chef resource for the Grunt NPM package
+      #
+      # @return [Chef::Resource::NodejsNpm]
+      #
+      def grunt_package
+        @grunt_package ||= Resource::NodejsNpm.new('grunt', run_context)
+        unless new_resource.grunt_version.nil?
+          @grunt_package.version(new_resource.grunt_version)
         end
-
-        #
-        # Download and install the Webhook CLI
-        #
-        def action_install
-          grunt_package.run_action(:install)
-          wh_package.run_action(:install)
-          new_resource.installed = true
-        end
-
-        #
-        # Uninstall the Webhook CLI
-        def action_uninstall
-          wh_package.run_action(:uninstall)
-          grunt_package.run_action(:uninstall)
-          new_resource.installed = false
-        end
-
-        private
-
-        #
-        # A Chef resource for the wh NPM package
-        #
-        # @return [Chef::Resource::NodejsNpm]
-        #
-        def wh_package
-          @wh_package ||= Resource::NodejsNpm.new('wh', run_context)
-          unless new_resource.version == 'latest'
-            @wh_package.version(new_resource.version)
-          end
-          @wh_package
-        end
-
-        #
-        # A Chef resource for the Grunt NPM package
-        #
-        # @return [Chef::Resource::NodejsNpm]
-        #
-        def grunt_package
-          @grunt_package ||= Resource::NodejsNpm.new('grunt', run_context)
-          unless new_resource.grunt_version.nil?
-            @grunt_package.version(new_resource.grunt_version)
-          end
-          @grunt_package
-        end
+        @grunt_package
       end
     end
   end

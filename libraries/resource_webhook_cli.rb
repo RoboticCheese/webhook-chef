@@ -24,57 +24,55 @@ require_relative 'provider_webhook_cli'
 
 class Chef
   class Resource
-    class Webhook < Resource
-      # A Chef resource for the Webhook CLI
+    # A Chef resource for the Webhook CLI
+    #
+    # @author Jonathan Hartman <j@p4nt5.com>
+    class WebhookCli < Resource
+      include ::Webhook::Helpers
+
+      attr_accessor :installed
+      alias_method :installed?, :installed
+
+      def initialize(name, run_context = nil)
+        super
+        @resource_name = :webhook_cli
+        @provider = Chef::Provider::WebhookCli
+        @action = :install
+        @allowed_actions = [:install, :uninstall]
+
+        @installed = false
+      end
+
       #
-      # @author Jonathan Hartman <j@p4nt5.com>
-      class CLI < Resource
-        include ::Webhook::Helpers
+      # The version of the CLI to install
+      #
+      # @param [String, NilClass]
+      # @return [String]
+      def version(arg = nil)
+        set_or_return(:version,
+                      arg,
+                      kind_of: String,
+                      default: 'latest',
+                      callbacks: {
+                        "Valid versions are 'latest' or 'x.y.z'" =>
+                          ->(a) { valid_version?(a) }
+                      })
+      end
 
-        attr_accessor :installed
-        alias_method :installed?, :installed
-
-        def initialize(name, run_context = nil)
-          super
-          @resource_name = :webhook_cli
-          @provider = Chef::Provider::Webhook::CLI
-          @action = :install
-          @allowed_actions = [:install, :uninstall]
-
-          @installed = false
-        end
-
-        #
-        # The version of the CLI to install
-        #
-        # @param [String, NilClass]
-        # @return [String]
-        def version(arg = nil)
-          set_or_return(:version,
-                        arg,
-                        kind_of: String,
-                        default: 'latest',
-                        callbacks: {
-                          "Valid versions are 'latest' or 'x.y.z'" =>
-                            ->(a) { valid_version?(a) }
-                        })
-        end
-
-        #
-        # The version of the Grunt dependency to install
-        #
-        # @param [String, NilClass]
-        # @return [String]
-        def grunt_version(arg = nil)
-          set_or_return(:grunt_version,
-                        arg,
-                        kind_of: String,
-                        default: 'latest',
-                        callbacks: {
-                          "Valid versions are 'latest' or 'x.y.z'" =>
-                            ->(a) { valid_version?(a) }
-                        })
-        end
+      #
+      # The version of the Grunt dependency to install
+      #
+      # @param [String, NilClass]
+      # @return [String]
+      def grunt_version(arg = nil)
+        set_or_return(:grunt_version,
+                      arg,
+                      kind_of: String,
+                      default: 'latest',
+                      callbacks: {
+                        "Valid versions are 'latest' or 'x.y.z'" =>
+                          ->(a) { valid_version?(a) }
+                      })
       end
     end
   end

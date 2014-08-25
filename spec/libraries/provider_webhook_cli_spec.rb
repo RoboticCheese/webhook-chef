@@ -20,7 +20,7 @@
 require_relative '../spec_helper'
 require_relative '../../libraries/provider_webhook_cli'
 
-describe Chef::Provider::Webhook::CLI do
+describe Chef::Provider::WebhookCli do
   let(:version) { 'latest' }
   let(:grunt_version) { nil }
   let(:new_resource) do
@@ -38,7 +38,7 @@ describe Chef::Provider::Webhook::CLI do
 
   describe '#load_current_resource' do
     it 'returns a Webhook CLI resource' do
-      expected = Chef::Resource::Webhook::CLI
+      expected = Chef::Resource::WebhookCli
       expect(provider.load_current_resource).to be_an_instance_of(expected)
     end
   end
