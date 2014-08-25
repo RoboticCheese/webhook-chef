@@ -22,6 +22,13 @@ Usage
 This cookbook can be implemented either by calling its resource directly, or
 adding the recipes that wrap it to your run_list.
 
+Known Issues
+------------
+
+The [nodejs](https://supermarket.getchef.com/cookbooks/nodejs) cookbook does
+not (yet) support Windows or Mac OS X. It's what we consume to install Webhook,
+so platform support is, for now, limited.
+
 Recipes
 -------
 
