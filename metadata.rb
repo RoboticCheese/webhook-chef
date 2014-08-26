@@ -6,7 +6,7 @@ maintainer_email 'j@p4nt5.com'
 license          'Apache v2.0'
 description      'Installs/configures Webhook'
 long_description 'Installs/configures Webhook'
-version          '0.1.0'
+version          '0.1.1'
 
 depends          'nodejs'
 
