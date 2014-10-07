@@ -23,6 +23,13 @@ require_relative '../../libraries/webhook_helpers'
 describe Webhook::Helpers do
   let(:test_object) { Class.new { include Webhook::Helpers }.new }
 
+  describe '#wh_app_package_repo' do
+    it 'returns the Webhook application package dir' do
+      expected = 'http://dump.webhook.com/application'
+      expect(test_object.wh_app_package_repo).to eq(expected)
+    end
+  end
+
   describe '#valid_version?' do
     let(:version) { nil }
     let(:res) { test_object.valid_version?(version) }

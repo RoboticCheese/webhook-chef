@@ -9,20 +9,23 @@ platforms:
   - name: ubuntu-14.04
   - name: ubuntu-12.04
   - name: centos-7.0
-    driver:
-      # Prevent 64-char hostnames that break CentOS 7
-      # See: https://github.com/test-kitchen/kitchen-digitalocean/pull/25
-      server_name: webhook-<%= Etc.getlogin %>-<%= ENV['TRAVIS_BUILD_NUMBER'] || 42 %>
   - name: centos-6.5
-# - name: macosx-10.9
+  - name: macosx-10.9
 # - name: windows-2012
 
 suites:
-# - name: default
-#   run_list:
-#     - recipe[webhook]
-#   attributes:
   - name: cli
     run_list:
       - recipe[webhook::cli]
     attributes:
+    excludes:
+      - macosx-10.9
+  - name: app
+    run_list:
+      - recipe[webhook::app]
+    attributes:
+    excludes:
+      - ubuntu-14.04
+      - ubuntu-12.04
+      - centos-7.0
+      - centos-6.5

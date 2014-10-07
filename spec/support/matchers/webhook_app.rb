@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: webhook
-# Spec:: cli/serverspec/localhost/cli
+# Spec:: support/matchers/app
 #
 # Copyright (C) 2014, Jonathan Hartman
 #
@@ -19,8 +19,19 @@
 
 require 'spec_helper'
 
-describe command('wh -h') do
-  it 'exits with status 0' do
-    expect(described_class.exit_status).to eq(0)
+module ChefSpec
+  module API
+    # Some simple matchers for the webhook_app resource
+    #
+    # @author Jonathan Hartman <j@p4nt5.com>
+    module WebhookAppMatchers
+      ChefSpec::Runner.define_runner_method :webhook_app
+
+      def install_webhook_app(resource_name)
+        ChefSpec::Matchers::ResourceMatcher.new(:webhook_app,
+                                                :install,
+                                                resource_name)
+      end
+    end
   end
 end

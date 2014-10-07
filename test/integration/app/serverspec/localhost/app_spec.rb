@@ -1,24 +1,32 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: webhook
-# Attributes:: default
+# Spec:: cli/serverspec/localhost/app
 #
-# Copyright 2014, Jonathan Hartman
+# Copyright (C) 2014, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#   http://www.apache.org/licenses/LICENSE-2.0
+#    http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-default['webhook']['cli']['version'] = nil
-default['webhook']['cli']['grunt_version'] = nil
+require 'spec_helper'
 
-default['webhook']['app']['package_url'] = nil
+describe file('/Applications/Webhook.app') do
+  it 'exists and is a directory' do
+    expect(described_class).to be_directory
+  end
+end
+
+describe file('/Applications/Webhook.app/Contents/MacOS/node-webkit') do
+  it 'exists and is executable' do
+    expect(described_class).to be_executable
+  end
+end
