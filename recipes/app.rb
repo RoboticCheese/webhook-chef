@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: webhook
-# Attributes:: default
+# Recipe:: app
 #
 # Copyright 2014, Jonathan Hartman
 #
@@ -18,7 +18,6 @@
 # limitations under the License.
 #
 
-default['webhook']['cli']['version'] = nil
-default['webhook']['cli']['grunt_version'] = nil
-
-default['webhook']['app']['package_url'] = nil
+webhook_app 'webhook' do
+  package_url node['webhook']['app']['package_url']
+end

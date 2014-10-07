@@ -24,6 +24,15 @@ module Webhook
   # @author Jonathan Hartman <j@p4nt5.com>
   module Helpers
     #
+    # The base URL of Webhook app packages
+    #
+    # @return [String]
+    #
+    def wh_app_package_repo
+      'http://dump.webhook.com/application'
+    end
+
+    #
     # Is this symbol/string a valid version identifier?
     #
     # @param [String, Symbol]

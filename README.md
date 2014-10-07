@@ -38,6 +38,10 @@ Recipes
 
 Installs Node.js and calls the webhook_cli resource to install the Webhook CLI.
 
+***app***
+
+Installs the (beta) Webhook GUI app. Recipe is currently OS X-only.
+
 Attributes
 ----------
 
@@ -47,6 +51,7 @@ Attributes
 |-------------------------------------------|---------|---------------------------------------------------------------------|
 | `node['webhook']['cli']['version']`       | nil     | Install a specific version of the Webhook CLI instead of the latest |
 | `node['webhook']['cli']['grunt_version']` | nil     | Install a specific version of Grunt instead of the latest           |
+| `node['webhook']['app']['package_url']`   | nil     | Grab the Webhook app package from a specific URL              |
 
 Resources
 ---------
@@ -78,12 +83,39 @@ Attributes:
 | `version`       | `'latest'` | Version of the wh package to install |
 | `grunt_version` | `'latest'` | Version of the Grunt dep to install  |
 
+***webhook_app***
+
+Downloads and installs the packaged Webhook app (currently for OS X only).
+
+Syntax:
+
+    webhook_app 'webhook' do
+      package_url 'https://path.to/somewhere'
+      action :install
+    end
+
+Actions:
+
+| Action       | Description                       |
+|--------------|-----------------------------------|
+| `:install`   | Install the Webhook app (default) |
+
+Attributes:
+
+| Attribute       | Default    | Description                          |
+|-----------------|------------|--------------------------------------|
+| `package_url`   | `nil`      | Grab the package from a custom URL   |
+
 Providers
 ---------
 
 ***webhook_cli***
 
 Handles installs/uninstalls of the Webhook CLI, via NPM packages.
+
+***webhook_app***
+
+Handles installs of the Webhook app, via system packages.
 
 Contributing
 ------------
