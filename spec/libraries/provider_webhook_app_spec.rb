@@ -72,12 +72,24 @@ describe Chef::Provider::WebhookApp do
       it 'calls the OS X package resource method' do
         p = provider
         expect(p).to receive(:package_mac_os_x).and_return(true)
+        expect(p).to_not receive(:package_windows)
         p.send(:package)
       end
     end
 
     context 'Windows' do
       let(:platform) { { platform: 'windows', version: '2012' } }
+
+      it 'calls the Windows package resource method' do
+        p = provider
+        expect(p).to receive(:package_windows).and_return(true)
+        expect(p).to_not receive(:package_mac_os_x)
+        p.send(:package)
+      end
+    end
+
+    context 'Ubuntu' do
+      let(:platform) { { platform: 'ubuntu', version: '12.04' } }
 
       it 'raises an exception' do
         expect { provider.send(:package) }.to raise_error
@@ -119,6 +131,29 @@ describe Chef::Provider::WebhookApp do
     end
   end
 
+  describe '#package_windows' do
+    let(:package_windows) { provider.send(:package_windows) }
+    let(:package_url) { 'http://example.com/setup.exe' }
+
+    before(:each) do
+      allow_any_instance_of(described_class).to receive(:package_url)
+        .and_return(package_url)
+    end
+
+    it 'returns a WindowsPackage instance' do
+      expected = Chef::Resource::WindowsPackage
+      expect(package_windows).to be_an_instance_of(expected)
+    end
+
+    it 'sets `package_name` correctly' do
+      expect(package_windows.package_name).to eq('Webhook')
+    end
+
+    it 'calls `source` correctly' do
+      expect(package_windows.source).to eq(package_url)
+    end
+  end
+
   describe '#package_url' do
     context 'no URL override provided' do
       before(:each) do
@@ -152,6 +187,14 @@ describe Chef::Provider::WebhookApp do
 
     context 'Windows' do
       let(:platform) { { platform: 'windows', version: '2012' } }
+
+      it 'returns the .exe package' do
+        expect(provider.send(:filename)).to eq('setup.exe')
+      end
+    end
+
+    context 'Ubuntu' do
+      let(:platform) { { platform: 'ubuntu', version: '12.04' } }
 
       it 'raises an exception' do
         expected = Chef::Exceptions::UnsupportedPlatform

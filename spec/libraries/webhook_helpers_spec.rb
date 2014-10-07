@@ -23,6 +23,12 @@ require_relative '../../libraries/webhook_helpers'
 describe Webhook::Helpers do
   let(:test_object) { Class.new { include Webhook::Helpers }.new }
 
+  describe '#wh_app_name' do
+    it 'returns the application name' do
+      expect(test_object.wh_app_name).to eq('Webhook')
+    end
+  end
+
   describe '#wh_app_package_repo' do
     it 'returns the Webhook application package dir' do
       expected = 'http://dump.webhook.com/application'

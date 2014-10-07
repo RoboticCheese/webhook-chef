@@ -24,6 +24,15 @@ module Webhook
   # @author Jonathan Hartman <j@p4nt5.com>
   module Helpers
     #
+    # The name of the webhook app (used in the Windows registry, etc.)
+    #
+    # @return [String]
+    #
+    def wh_app_name
+      'Webhook'
+    end
+
+    #
     # The base URL of Webhook app packages
     #
     # @return [String]

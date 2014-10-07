@@ -12,9 +12,7 @@ A cookbook for installing and configuring the various components of
 Requirements
 ------------
 
-While the included recipes will handle installation of Node.js on their own,
-the resources provided will not. Either use the recipes or ensure Node.js is
-installed prior to calling a resource directly.
+See each recipe's notes below for platform-specific limitations.
 
 Usage
 -----
@@ -38,9 +36,16 @@ Recipes
 
 Installs Node.js and calls the webhook_cli resource to install the Webhook CLI.
 
+Due to current limitations of the nodejs cookbook, this recipe is Linux-only.
+
 ***app***
 
-Installs the (beta) Webhook GUI app. Recipe is currently OS X-only.
+Calls the webhook_app resource to install the (beta) Webhook GUI app.
+
+The app is distributed only for OS X and Windows, so this recipe is limited to
+those platforms. Package upgrade and removal on both platforms is wonky at best
+and unavailable to Chef at worst, so the best way for now to do either action
+is manually.
 
 Attributes
 ----------
