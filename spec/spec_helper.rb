@@ -19,6 +19,9 @@
 
 require 'chef'
 require 'chefspec'
+require 'simplecov'
+require 'simplecov-console'
+require 'coveralls'
 require 'tmpdir'
 require 'fileutils'
 require_relative 'support/matchers/webhook_app'
@@ -66,5 +69,13 @@ RSpec.configure do |c|
 
   c.after(:suite) { FileUtils.rm_r(COOKBOOK_PATH) }
 end
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+    Coveralls::SimpleCov::Formatter,
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::Console
+]
+SimpleCov.minimum_coverage 90
+SimpleCov.start
 
 at_exit { ChefSpec::Coverage.report! }

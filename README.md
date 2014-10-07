@@ -2,9 +2,13 @@ Webhook Cookbook
 ================
 [![Cookbook Version](http://img.shields.io/cookbook/v/webhook.svg)][cookbook]
 [![Build Status](http://img.shields.io/travis/RoboticCheese/webhook-chef.svg)][travis]
+[![Code Climate](http://img.shields.io/codeclimate/github/RoboticCheese/webhook-chef.svg)][codeclimate]
+[![Coverage Status](http://img.shields.io/coveralls/RoboticCheese/webhook-chef.svg)][coveralls]
 
 [cookbook]: https://supermarket.getchef.com/cookbooks/webhook
 [travis]: http://travis-ci.org/RoboticCheese/webhook-chef
+[codeclimate]: https://codeclimate.com/github/RoboticCheese/webhook-chef
+[coveralls]: https://coveralls.io/r/RoboticCheese/webhook-chef
 
 A cookbook for installing and configuring the various components of
 [Webhook](http://www.webhook.com).
