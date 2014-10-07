@@ -54,8 +54,10 @@ class Chef
                       arg,
                       kind_of: [String, NilClass],
                       default: nil,
-                      callbacks: { 'Package must be a `.dmg` file' =>
-                                     ->(a) { a.end_with?('.dmg') } })
+                      callbacks: {
+                        'Package must be a `.dmg` or `.exe` file' =>
+                          ->(a) { a.end_with?('.dmg') || a.end_with?('.exe') }
+                      })
       end
     end
   end

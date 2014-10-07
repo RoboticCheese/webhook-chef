@@ -17,16 +17,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'spec_helper'
+require_relative '../spec_helper'
 
-describe file('/Applications/Webhook.app') do
-  it 'exists and is a directory' do
-    expect(described_class).to be_directory
+describe 'Webhook application' do
+  let(:app_dir) do
+    if File.exist?('c:/')
+      'c:/Program Files (x86)/Webhook'
+    elsif os[:family] == 'darwin'
+      '/Applications/Webhook.app'
+    else
+      fail
+    end
   end
-end
 
-describe file('/Applications/Webhook.app/Contents/MacOS/node-webkit') do
-  it 'exists and is executable' do
-    expect(described_class).to be_executable
+  let(:app_file) do
+    if File.exist?('c:/')
+      File.join(app_dir, 'Webhook.exe')
+    elsif os[:family] == 'darwin'
+      File.join(app_dir, '/Contents/MacOS/node-webkit')
+    else
+      fail
+    end
+  end
+
+  describe 'Webhook app dir' do
+    it 'exists' do
+      expect(file(app_dir)).to be_directory
+    end
+  end
+
+  describe 'Webhook app executable' do
+    it 'exists' do
+      expect(file(app_file)).to be_file
+    end
   end
 end

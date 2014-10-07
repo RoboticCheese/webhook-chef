@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: webhook
-# Spec:: serverspec/spec_helper
+# Provider:: windows_package
 #
 # Copyright (C) 2014, Jonathan Hartman
 #
@@ -17,10 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'serverspec'
+require 'spec_helper'
 
-if File.exist?('c:/')
-  set :backend, :cmd
-else
-  set :backend, :exec
+class Chef
+  class Provider
+    # A fake windows_package provider
+    #
+    # @author Jonathan Hartman <j@p4nt5.com>
+    class WindowsPackage < Provider
+    end
+  end
 end

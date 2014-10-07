@@ -10,6 +10,7 @@ version          '0.1.1'
 
 depends          'dmg', '~> 2.2'
 depends          'nodejs', '~> 2.1'
+depends          'windows', '~> 1.34'
 
 supports         'ubuntu'
 supports         'debian'
@@ -18,4 +19,4 @@ supports         'centos'
 supports         'scientific'
 supports         'smartos'
 supports         'mac_os_x'
-# supports       'windows'
+supports         'windows'

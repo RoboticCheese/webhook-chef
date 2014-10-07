@@ -80,6 +80,17 @@ class Chef
       end
 
       #
+      # Build and return a Windows package resource
+      #
+      # @return [Chef::Resource::WindowsPackage]
+      #
+      def package_windows
+        p = Resource::WindowsPackage.new(wh_app_name, run_context)
+        p.source(package_url)
+        p
+      end
+
+      #
       # The remote URL of the package file
       #
       # @return [String]
@@ -100,7 +111,9 @@ class Chef
       def filename
         case node['platform_family']
         when 'mac_os_x'
-          'Webhook.dmg'
+          "#{wh_app_name}.dmg"
+        when 'windows'
+          'setup.exe'
         else
           fail(Exceptions::UnsupportedPlatform, node['platform_family'])
         end

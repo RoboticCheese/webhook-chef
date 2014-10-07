@@ -25,8 +25,10 @@ require_relative 'support/matchers/webhook_app'
 require_relative 'support/matchers/webhook_cli'
 require_relative 'support/resource/dmg_package'
 require_relative 'support/resource/nodejs_npm'
+require_relative 'support/resource/windows_package'
 require_relative 'support/provider/dmg_package'
 require_relative 'support/provider/nodejs_npm'
+require_relative 'support/provider/windows_package'
 
 RSpec.configure do |c|
   c.color = true
