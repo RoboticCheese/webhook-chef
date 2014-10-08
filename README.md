@@ -87,7 +87,8 @@ Attributes:
 
 ***webhook_app***
 
-Downloads and installs the packaged Webhook app (currently for OS X only).
+Downloads and installs the packaged Webhook app (currently for OS X and Windows
+only).
 
 Syntax:
 
