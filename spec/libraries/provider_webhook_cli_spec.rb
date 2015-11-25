@@ -1,34 +1,20 @@
 # Encoding: UTF-8
-#
-# Cookbook Name:: webhook
-# Spec:: libraries/provider_webhook_cli
-#
-# Copyright (C) 2014, Jonathan Hartman
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 require_relative '../spec_helper'
 require_relative '../../libraries/provider_webhook_cli'
 
 describe Chef::Provider::WebhookCli do
+  let(:name) { 'default' }
   let(:version) { 'latest' }
   let(:grunt_version) { nil }
+  let(:run_context) { ChefSpec::SoloRunner.new.converge.run_context }
   let(:new_resource) do
-    double(name: 'webhook_cli',
-           version: version,
-           grunt_version: grunt_version)
+    r = Chef::Resource::WebhookCli.new(name, run_context)
+    r.version(version) unless version.nil?
+    r.grunt_version(grunt_version) unless grunt_version.nil?
+    r
   end
-  let(:provider) { described_class.new(new_resource, nil) }
+  let(:provider) { described_class.new(new_resource, run_context) }
 
   describe '#whyrun_supported?' do
     it 'advertises WhyRun support' do
@@ -46,7 +32,6 @@ describe Chef::Provider::WebhookCli do
   describe '#action_install' do
     let(:grunt_package) { double(run_action: true) }
     let(:wh_package) { double(run_action: true) }
-    let(:new_resource) { double(:'installed=' => true) }
 
     before(:each) do
       allow_any_instance_of(described_class).to receive(:grunt_package)
@@ -76,7 +61,6 @@ describe Chef::Provider::WebhookCli do
   describe '#action_uninstall' do
     let(:grunt_package) { double(run_action: true) }
     let(:wh_package) { double(run_action: true) }
-    let(:new_resource) { double(:'installed=' => true) }
 
     before(:each) do
       allow_any_instance_of(described_class).to receive(:grunt_package)
@@ -152,9 +136,9 @@ describe Chef::Provider::WebhookCli do
     context 'no version override' do
       it_behaves_like 'any node'
 
-      it 'passes no version to the package resource' do
+      it 'passes the default version to the package resource' do
         expect_any_instance_of(Chef::Resource::NodejsNpm)
-          .not_to receive(:version)
+          .to receive(:version).with('latest')
         provider.send(:grunt_package)
       end
     end

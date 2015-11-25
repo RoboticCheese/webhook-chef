@@ -1,32 +1,19 @@
 # Encoding: UTF-8
-#
-# Cookbook Name:: webhook
-# Spec:: libraries/provider_webhook_app
-#
-# Copyright (C) 2014, Jonathan Hartman
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
 require_relative '../spec_helper'
 require_relative '../../libraries/provider_webhook_app'
 
 describe Chef::Provider::WebhookApp do
+  let(:name) { 'default' }
   let(:platform) { {} }
   let(:package_url) { nil }
+  let(:run_context) { ChefSpec::SoloRunner.new.converge.run_context }
   let(:new_resource) do
-    double(name: 'webhook', package_url: package_url, :'installed=' => true)
+    r = Chef::Resource::WebhookApp.new(name, run_context)
+    r.package_url(package_url) unless package_url.nil?
+    r
   end
-  let(:provider) { described_class.new(new_resource, nil) }
+  let(:provider) { described_class.new(new_resource, run_context) }
 
   before(:each) do
     allow_any_instance_of(described_class).to receive(:node)
@@ -158,17 +145,17 @@ describe Chef::Provider::WebhookApp do
     context 'no URL override provided' do
       before(:each) do
         allow_any_instance_of(described_class).to receive(:filename)
-          .and_return('file.file')
+          .and_return('file.dmg')
       end
 
       it 'constructs a URL for the system' do
-        expected = 'http://dump.webhook.com/application/file.file'
+        expected = 'http://dump.webhook.com/application/file.dmg'
         expect(provider.send(:package_url)).to eq(expected)
       end
     end
 
     context 'a URL override provided' do
-      let(:package_url) { 'http://somewhere.else/file.file' }
+      let(:package_url) { 'http://somewhere.else/file.dmg' }
 
       it 'returns that override' do
         expect(provider.send(:package_url)).to eq(package_url)

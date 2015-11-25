@@ -1,21 +1,27 @@
-language: objective-c
+language: ruby
+
+branches:
+  only:
+    - master
+
+sudo: required
+services:
+  - docker
 
 install:
-  - curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- -P chefdk
-  - chef exec berks vendor /tmp/kitchen/cookbooks
-  - sudo chef-client -z -c test/client.rb -j test/dna.json
-  - chef exec bundle install --without=development
+  - sudo apt-get purge -y lxc-docker
+  - wget -qO- https://get.docker.com/ | sudo sh
+  - curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- -P chefdk
+  - chef exec bundle install --without=development integration
 
 before_script:
   # Pending ENV support in Kitchen's Rake tasks and not just the CLI
   - cp .kitchen.travis.yml .kitchen.local.yml
-  - echo -e $DIGITALOCEAN_SSH_KEY_BODY > ~/.ssh/id_rsa
 
 script:
-  - chef exec bundle exec rspec --default-path test/integration/app/serverspec -f d && chef exec rake
+  - chef exec rake && chef exec kitchen test
 
 after_script:
-  - chef exec bundle exec kitchen destroy
 
 env:
   global:

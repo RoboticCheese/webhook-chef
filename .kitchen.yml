@@ -8,9 +8,13 @@ provisioner:
 platforms:
   - name: ubuntu-14.04
   - name: ubuntu-12.04
-  - name: centos-7.0
-  - name: centos-6.5
-  - name: macosx-10.9
+  - name: centos-7.1
+  - name: centos-6.7
+  - name: macosx-10.10
+    driver:
+      box: roboticcheese/macosx-10.10
+      ssh:
+        insert_key: false
 # - name: windows-2012
 
 suites:
@@ -19,7 +23,7 @@ suites:
       - recipe[webhook::cli]
     attributes:
     excludes:
-      - macosx-10.9
+      - macosx-10.10
   - name: app
     run_list:
       - recipe[webhook::app]
@@ -27,5 +31,5 @@ suites:
     excludes:
       - ubuntu-14.04
       - ubuntu-12.04
-      - centos-7.0
-      - centos-6.5
+      - centos-7.1
+      - centos-6.7
